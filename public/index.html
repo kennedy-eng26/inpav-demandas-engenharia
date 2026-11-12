@@ -4,10 +4,958 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Engenharia Inpav</title>
+    <meta name="theme-color" content="#3C5394">
+    <title>Engenharia INPAV | Gestão de Demandas</title>
+
+    <style>
+        :root {
+            --primary: #3C5394;
+            --primary-dark: #2d4078;
+            --white: #FFFFFF;
+            --secondary: #F2F2F2;
+            --background: #F6F7FA;
+            --text: #252B3B;
+            --muted: #858B9B;
+            --border: #E8EAF0;
+            --green: #269B70;
+            --orange: #D99132;
+            --red: #D85A5A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* MENU LATERAL */
+
+        .sidebar {
+            width: 250px;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            padding: 25px 18px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            padding: 5px 10px 30px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-name {
+            color: var(--primary);
+            font-size: 23px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .brand-subtitle {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 6px;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .menu-label {
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--muted);
+            letter-spacing: 1.5px;
+            margin: 28px 10px 12px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #62697B;
+            padding: 13px 12px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #EDF0F8;
+            color: var(--primary);
+        }
+
+        .menu a.active {
+            font-weight: bold;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 18px 10px 0;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* CONTEÚDO PRINCIPAL */
+
+        .main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .topbar {
+            height: 75px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .topbar h2 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: #E7EBF5;
+            color: var(--primary);
+            display: grid;
+            place-items: center;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .user-name {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .user-role {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            border: none;
+            background: none;
+            color: var(--primary);
+            font-size: 23px;
+        }
+
+        .content {
+            padding: 32px 35px;
+            max-width: 1600px;
+            margin: auto;
+        }
+
+        .welcome {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 28px;
+        }
+
+        .welcome h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .date {
+            color: var(--primary);
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 11px 15px;
+            border-radius: 7px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        /* INDICADORES */
+
+        .section-heading {
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 17px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 20px;
+            min-height: 135px;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .stat-icon {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: #EDF0F8;
+            color: var(--primary);
+            font-size: 17px;
+        }
+
+        .stat-number {
+            font-size: 29px;
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .stat-description {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        /* PAINÉIS */
+
+        .panels {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 22px;
+            min-width: 0;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 23px;
+            gap: 10px;
+        }
+
+        .panel-header h3 {
+            font-size: 14px;
+        }
+
+        .panel-subtitle {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        /* DISTRIBUIÇÃO */
+
+        .status-list {
+            display: flex;
+            flex-direction: column;
+            gap: 19px;
+        }
+
+        .status-item {
+            display: grid;
+            grid-template-columns: 105px 1fr 25px;
+            align-items: center;
+            gap: 12px;
+            font-size: 11px;
+        }
+
+        .status-name {
+            color: #62697B;
+        }
+
+        .progress {
+            height: 9px;
+            background: var(--secondary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .status-value {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+        }
+
+        .legend-item {
+            font-size: 10px;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* ATIVIDADES */
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .activity {
+            display: flex;
+            gap: 12px;
+            padding: 13px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            background: #EDF0F8;
+            color: var(--primary);
+            font-size: 13px;
+        }
+
+        .activity-text {
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .activity-time {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        /* TABELA */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th {
+            text-align: left;
+            font-size: 10px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            padding: 13px 12px;
+            background: #FAFAFC;
+        }
+
+        td {
+            padding: 15px 12px;
+            font-size: 11px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .demand-name {
+            font-weight: bold;
+            color: var(--text);
+        }
+
+        .demand-code {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .status-tag {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .tag-progress {
+            background: #FFF3DE;
+            color: #B77B1E;
+        }
+
+        .tag-open {
+            background: #EAF0FC;
+            color: var(--primary);
+        }
+
+        .tag-done {
+            background: #E6F5EF;
+            color: var(--green);
+        }
+
+        .tag-late {
+            background: #FCEAEA;
+            color: var(--red);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px 10px 10px;
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        /* RESPONSIVIDADE */
+
+        @media (max-width: 1050px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .panels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                position: fixed;
+                z-index: 10;
+                top: 0;
+                bottom: 0;
+                left: -260px;
+                transition: .25s;
+                box-shadow: none;
+            }
+
+            .sidebar.open {
+                left: 0;
+                box-shadow: 5px 0 20px #0002;
+            }
+
+            .topbar {
+                padding: 0 18px;
+                height: 65px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .content {
+                padding: 25px 17px;
+            }
+
+            .welcome {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .welcome h1 {
+                font-size: 21px;
+            }
+
+            .user-name,
+            .user-role {
+                display: none;
+            }
+
+            .stats {
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 14px;
+                min-height: 120px;
+            }
+
+            .stat-number {
+                font-size: 25px;
+            }
+
+            .stat-label {
+                font-size: 10px;
+            }
+
+            .panel {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Engenharia Inpav</h1>
-    <p>Sistema de Gestão de Demandas</p>
+
+<div class="layout">
+
+    <!-- MENU LATERAL -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-name">INPAV</div>
+            <div class="brand-subtitle">Engenharia e Projetos</div>
+        </div>
+
+        <div class="menu-label">PRINCIPAL</div>
+
+        <nav class="menu">
+            <a href="#dashboard" class="active">
+                <span class="menu-icon">▦</span> Dashboard
+            </a>
+
+            <a href="#demandas">
+                <span class="menu-icon">▤</span> Demandas
+            </a>
+
+            <a href="#projetos">
+                <span class="menu-icon">⌂</span> Projetos
+            </a>
+
+            <a href="#equipe">
+                <span class="menu-icon">♧</span> Equipe
+            </a>
+
+            <a href="#prazos">
+                <span class="menu-icon">◷</span> Prazos
+            </a>
+
+            <a href="#relatorios">
+                <span class="menu-icon">▥</span> Relatórios
+            </a>
+        </nav>
+
+        <div class="menu-label">SISTEMA</div>
+
+        <nav class="menu">
+            <a href="#configuracoes">
+                <span class="menu-icon">⚙</span> Configurações
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            INPAV Engenharia<br>
+            Sistema de Gestão de Demandas<br>
+            Versão 1.0
+        </div>
+
+    </aside>
+
+    <!-- ÁREA PRINCIPAL -->
+    <main class="main" id="dashboard">
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+                <button class="mobile-toggle" id="menuToggle"
+                    aria-label="Abrir menu">☰</button>
+                <h2>Gestão de Engenharia</h2>
+            </div>
+
+            <div class="topbar-right">
+                <div class="user-info">
+                    <div class="avatar">IN</div>
+                    <div>
+                        <div class="user-name">Setor de Engenharia</div>
+                        <div class="user-role">Painel administrativo</div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <div class="content">
+
+            <!-- BOAS-VINDAS -->
+            <section class="welcome">
+
+                <div>
+                    <h1>Visão Geral</h1>
+                    <p>Acompanhe o desempenho e as atividades do setor de engenharia.</p>
+                </div>
+
+                <div class="date" id="currentDate">Carregando data...</div>
+
+            </section>
+
+            <!-- INDICADORES -->
+            <section>
+
+                <h3 class="section-heading">Indicadores gerais</h3>
+
+                <div class="stats">
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-label">Total de demandas</span>
+                            <span class="stat-icon">▤</span>
+                        </div>
+                        <div class="stat-number">48</div>
+                        <div class="stat-description">Demandas cadastradas</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-label">Em andamento</span>
+                            <span class="stat-icon">◷</span>
+                        </div>
+                        <div class="stat-number">18</div>
+                        <div class="stat-description">Demandas em execução</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-label">Concluídas</span>
+                            <span class="stat-icon">✓</span>
+                        </div>
+                        <div class="stat-number">24</div>
+                        <div class="stat-description">Demandas finalizadas</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span class="stat-label">Atrasadas</span>
+                            <span class="stat-icon">!</span>
+                        </div>
+                        <div class="stat-number">6</div>
+                        <div class="stat-description">Demandas fora do prazo</div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- PAINÉIS -->
+            <section class="panels">
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Demandas por situação</h3>
+                            <div class="panel-subtitle">Distribuição das atividades cadastradas</div>
+                        </div>
+                    </div>
+
+                    <div class="status-list">
+
+                        <div class="status-item">
+                            <span class="status-name">Concluídas</span>
+                            <div class="progress">
+                                <div class="progress-fill"
+                                    style="width:50%; background:#269B70"></div>
+                            </div>
+                            <span class="status-value">24</span>
+                        </div>
+
+                        <div class="status-item">
+                            <span class="status-name">Em andamento</span>
+                            <div class="progress">
+                                <div class="progress-fill"
+                                    style="width:37.5%; background:#3C5394"></div>
+                            </div>
+                            <span class="status-value">18</span>
+                        </div>
+
+                        <div class="status-item">
+                            <span class="status-name">Atrasadas</span>
+                            <div class="progress">
+                                <div class="progress-fill"
+                                    style="width:12.5%; background:#D85A5A"></div>
+                            </div>
+                            <span class="status-value">6</span>
+                        </div>
+
+                    </div>
+
+                    <div class="legend">
+                        <span class="legend-item">
+                            <span class="legend-dot" style="background:#269B70"></span>
+                            Concluídas
+                        </span>
+                        <span class="legend-item">
+                            <span class="legend-dot" style="background:#3C5394"></span>
+                            Em andamento
+                        </span>
+                        <span class="legend-item">
+                            <span class="legend-dot" style="background:#D85A5A"></span>
+                            Atrasadas
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <div>
+                            <h3>Atividades recentes</h3>
+                            <div class="panel-subtitle">Últimas movimentações do setor</div>
+                        </div>
+                    </div>
+
+                    <div class="activity-list">
+
+                        <div class="activity">
+                            <div class="activity-icon">✓</div>
+                            <div>
+                                <div class="activity-text">
+                                    <strong>Projeto de drenagem</strong> marcado como concluído.
+                                </div>
+                                <div class="activity-time">Atividade de demonstração</div>
+                            </div>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-icon">▤</div>
+                            <div>
+                                <div class="activity-text">
+                                    Nova demanda de <strong>pavimentação</strong> cadastrada.
+                                </div>
+                                <div class="activity-time">Atividade de demonstração</div>
+                            </div>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-icon">◷</div>
+                            <div>
+                                <div class="activity-text">
+                                    Atualização de prazo de <strong>projeto de infraestrutura</strong>.
+                                </div>
+                                <div class="activity-time">Atividade de demonstração</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- TABELA DE DEMANDAS -->
+            <section class="panel" id="demandas">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Demandas recentes</h3>
+                        <div class="panel-subtitle">Acompanhamento das principais atividades</div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Demanda</th>
+                                <th>Responsável</th>
+                                <th>Categoria</th>
+                                <th>Prazo</th>
+                                <th>Situação</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    <div class="demand-name">Projeto de drenagem</div>
+                                    <div class="demand-code">DEM-001</div>
+                                </td>
+                                <td>Projetista 01</td>
+                                <td>Drenagem</td>
+                                <td>15/11/2026</td>
+                                <td><span class="status-tag tag-progress">Em andamento</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="demand-name">Rede de abastecimento</div>
+                                    <div class="demand-code">DEM-002</div>
+                                </td>
+                                <td>Projetista 02</td>
+                                <td>Saneamento</td>
+                                <td>18/11/2026</td>
+                                <td><span class="status-tag tag-open">Aberta</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="demand-name">Projeto de pavimentação</div>
+                                    <div class="demand-code">DEM-003</div>
+                                </td>
+                                <td>Projetista 01</td>
+                                <td>Pavimentação</td>
+                                <td>10/11/2026</td>
+                                <td><span class="status-tag tag-late">Atrasada</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="demand-name">Projeto de sinalização</div>
+                                    <div class="demand-code">DEM-004</div>
+                                </td>
+                                <td>Projetista 02</td>
+                                <td>Sinalização</td>
+                                <td>08/11/2026</td>
+                                <td><span class="status-tag tag-done">Concluída</span></td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+            <footer class="footer">
+                INPAV Engenharia | Sistema de Gestão de Demandas
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+    // Data atual
+    const dateElement = document.getElementById("currentDate");
+
+    dateElement.textContent = new Date().toLocaleDateString("pt-BR", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+    });
+
+    // Menu responsivo
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+
+    menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+    });
+
+    // Navegação visual
+    document.querySelectorAll(".menu a").forEach(link => {
+        link.addEventListener("click", () => {
+            document.querySelectorAll(".menu a").forEach(item => {
+                item.classList.remove("active");
+            });
+
+            link.classList.add("active");
+            sidebar.classList.remove("open");
+        });
+    });
+</script>
+
 </body>
 </html>
