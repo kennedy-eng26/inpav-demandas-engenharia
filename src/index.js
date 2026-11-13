@@ -341,9 +341,15 @@ if (
           }
         }, { status: 201 });
 
-      } catch (error) {
+     } catch (error) {
+        console.error("ERRO NO BOOTSTRAP:", error);
+
         return Response.json(
-          { erro: "Ocorreu um erro durante a inicialização. Verifique os dados e tente novamente." },
+          {
+            erro: "Falha durante a inicialização.",
+            codigo: error?.code || "ERRO_INTERNO",
+            mensagem: error?.message || "Erro não identificado."
+          },
           { status: 500 }
         );
       }
