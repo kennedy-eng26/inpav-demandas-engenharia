@@ -11,6 +11,13 @@
       "/api/*"
     ]
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "engenharia-inpav-db",
+      "database_id": "9080bcd9-aaf3-4534-a1a1-13582479d40a"
+    }
+  ],
   "observability": {
     "enabled": true
   }
