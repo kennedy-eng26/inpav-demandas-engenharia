@@ -3,7 +3,7 @@
 // Worker + integração D1 + inicialização do administrador
 // =====================================================
 
-const ITERATIONS = 310000;
+const ITERATIONS = 100000;
 
 function toBase64(bytes) {
   return btoa(String.fromCharCode(...new Uint8Array(bytes)));
