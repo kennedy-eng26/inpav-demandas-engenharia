@@ -209,6 +209,18 @@ function setupPage() {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // Diagnóstico temporário do Bootstrap
+if (
+  url.pathname === "/api/diagnostico-bootstrap" &&
+  request.method === "GET"
+) {
+  return Response.json({
+    worker: "online",
+    bootstrap_secret_configurado: Boolean(env.BOOTSTRAP_SECRET),
+    banco_d1_configurado: Boolean(env.DB),
+    assets_configurado: Boolean(env.ASSETS)
+  });
+}
 
     // Página de configuração inicial
     if (url.pathname === "/setup-admin" && request.method === "GET") {
