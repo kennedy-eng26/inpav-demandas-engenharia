@@ -353,7 +353,7 @@ export default {
           { status: 500 }
         );
       }
-    }
+    
 
     // Verificação da conexão com o banco D1
     if (url.pathname === "/api/health" && request.method === "GET") {
