@@ -215,6 +215,18 @@ export default {
       return setupPage();
     }
 
+        // Diagnóstico temporário do Bootstrap
+    if (
+      url.pathname === "/api/diagnostico-bootstrap" &&
+      request.method === "GET"
+    ) {
+      return Response.json({
+        worker: "online",
+        bootstrap_secret_configurado: Boolean(env.BOOTSTRAP_SECRET),
+        banco_d1_configurado: Boolean(env.DB),
+        assets_configurado: Boolean(env.ASSETS)
+      });
+    }
     // Cadastro protegido do primeiro administrador
     if (url.pathname === "/api/bootstrap" && request.method === "POST") {
       try {
